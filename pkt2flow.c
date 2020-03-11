@@ -398,6 +398,7 @@ static void process_trace(void)
 		}
 
 		// Search for the ip_pair of specific six-tuple
+		printf("find_ip_pair begin\n");
 		pair = find_ip_pair(af_6tuple);
 		if (pair == NULL) {
 			if ((af_6tuple.protocol == IPPROTO_TCP) &&
