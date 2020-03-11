@@ -51,14 +51,10 @@
 #include <unistd.h>
 #include "pkt2flow.h"
 
-typedef enum {
-	true=1, false=0
-}bool;
-
 static uint32_t dump_allowed;
 static char *readfile = NULL;
 //char *interface = NULL;
-static bool raw_flag = false;
+static uint8_t raw_flag = 0;
 static char *outputdir = "pkt2flow.out";
 static pcap_t *inputp = NULL;
 struct ip_pair *pairs[HASH_TBL_SIZE];
@@ -93,7 +89,7 @@ static void parseargs(int argc, char *argv[])
 			outputdir = optarg;
 			break;
 		case 'r':
-			raw_flag = true;
+			raw_flag = 1;
 			break;
 		case 'u':
 			dump_allowed |= DUMP_UDP_ALLOWED;
