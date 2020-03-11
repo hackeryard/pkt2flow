@@ -394,7 +394,7 @@ static void process_trace(void)
 	pcap_dumper_t *dumper = NULL;
 	u_char *pkt = NULL;
 	char *fname = NULL;
-	struct af_6tuple af_6tuple;
+	struct af_6tuple af_6tuple; // 结构体没有初始化
 
 	while ((pkt = (u_char *)pcap_next(inputp, &hdr)) != NULL) {
 		// 仅仅是找到五元组 af_6tuple

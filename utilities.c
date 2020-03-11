@@ -39,6 +39,7 @@
 #include <sys/socket.h>
 #include "pkt2flow.h"
 
+// 定位到此处报错 仅仅是is_vlan没有初始化 导致fname是随机值
 char *new_file_name(struct af_6tuple af_6tuple, unsigned long timestamp)
 {
 	char *fname;
