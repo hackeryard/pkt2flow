@@ -270,8 +270,8 @@ static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 	char src_ip_str[INET_ADDRSTRLEN];
 	// type, src, dest, len(16)
 	inet_ntop(AF_INET, &(iphdr->ip_src), src_ip_str, INET_ADDRSTRLEN);
-	src_ip_str[INET_ADDRSTRLEN-1] = '\0';
-	// printf("ip: %s\n", src_ip_str);
+	// src_ip_str[INET_ADDRSTRLEN-1] = '\0';
+	printf("ip: %s\n", src_ip_str);
 
 	// tcp or udp
 	return pcap_handle_layer4(af_6tuple, bytes, len, iphdr->ip_p);
