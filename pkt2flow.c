@@ -400,8 +400,10 @@ static void process_trace(void)
 		}
 		if (syn_detected < 0)
 			continue;
+		if(syn_detected) {
+			printf("tcp syn detected\n");
+		}
 
-		printf("syn_detected is 0/1\n");
 		switch (af_6tuple.protocol) {
 		case IPPROTO_TCP:
 			/* always accept tcp */
