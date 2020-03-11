@@ -113,7 +113,7 @@ static void parseargs(int argc, char *argv[])
 static void open_trace_file(void)
 {
 	char errbuf [PCAP_ERRBUF_SIZE];
-
+	printf("readfile: %s\n", readfile);
 	inputp = pcap_open_offline(readfile, errbuf);
 	if (!inputp) {
 		fprintf(stderr, "error opening tracefile %s: %s\n", readfile,
@@ -422,7 +422,7 @@ static void process_trace(void)
 				break;
 			}
 		}
-
+		printf("pair->pdf.pkts: %d\n", pair->pdf.pkts);
 		// Fill the ip_pair with information of the current flow
 		if (pair->pdf.pkts == 0) {
 			// A new flow item reated with empty dump file object
