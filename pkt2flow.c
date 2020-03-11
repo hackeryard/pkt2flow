@@ -202,6 +202,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 
 	switch (proto) {
 	case IPPROTO_UDP:
+		printf("UDP deteceted\n");
 		if (len < sizeof(*udphdr))
 			return -1;
 
@@ -216,6 +217,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 #endif
 		return 0;
 	case IPPROTO_TCP:
+		printf("UDP deteceted\n");
 		if (len < sizeof(*tcphdr))
 			return -1;
 
@@ -238,6 +240,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 		else
 			return 0;
 	default:
+		printf("Layer 4 Unknown deteceted\n");
 		af_6tuple->protocol = 0;
 		af_6tuple->port1 = 0;
 		af_6tuple->port2 = 0;
