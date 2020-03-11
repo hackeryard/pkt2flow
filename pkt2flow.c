@@ -502,12 +502,12 @@ static void process_trace(void)
 			// Write the packet only
 			dumper = (pcap_dumper_t *)f;
 		}
-		// Dump the packet now
+		// 实际保存：Dump the packet now
 		pcap_dump((u_char *)dumper, &hdr, (unsigned char *)pkt);
 		pcap_dump_close(dumper);
 
 skip_dump_write:
-		free(fname);
+		// free(fname);
 		pair->pdf.pkts++;
 	}
 }
@@ -526,6 +526,6 @@ int main(int argc, char *argv[])
 	init_hash_table();
 	process_trace();
 	close_trace_files();
-	free_hash_table();
+	// free_hash_table();
 	exit(0);
 }
