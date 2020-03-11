@@ -54,6 +54,7 @@
 static uint32_t dump_allowed;
 static char *readfile = NULL;
 //char *interface = NULL;
+bool raw_flag = false;
 static char *outputdir = "pkt2flow.out";
 static pcap_t *inputp = NULL;
 struct ip_pair *pairs[HASH_TBL_SIZE];
@@ -85,6 +86,9 @@ static void parseargs(int argc, char *argv[])
 			exit(-1);
 		case 'o':
 			outputdir = optarg;
+			break;
+		case 'r':
+			raw_flag = true;
 			break;
 		case 'u':
 			dump_allowed |= DUMP_UDP_ALLOWED;
@@ -377,7 +381,13 @@ static void process_trace(void)
 	struct af_6tuple af_6tuple;
 
 	while ((pkt = (u_char *)pcap_next(inputp, &hdr)) != NULL) {
-		syn_detected = pcap_handle_ethernet(&af_6tuple, &hdr, pkt);
+		// 仅仅是找到五元组
+		if(raw_flag) {
+			size_t len = hdr.caplen;
+			syn_detected = pcap_handle_ip(&af_6tuple, pkt, len);
+		} else {
+			syn_detected = pcap_handle_ethernet(&af_6tuple, &hdr, pkt);
+		}
 		if (syn_detected < 0)
 			continue;
 
