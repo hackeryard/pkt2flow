@@ -488,6 +488,7 @@ static void process_trace(void)
 
 		// Dump the packet to file and close the file
 		fname = resemble_file_path(&(pair->pdf));
+		printf("++fname: %s\n", fname);
 		FILE *f = fopen(fname, "ab");
 		if (!f) {
 			fprintf(stderr, "Failed to open output file '%s'\n", fname);
@@ -507,7 +508,7 @@ static void process_trace(void)
 		pcap_dump_close(dumper);
 
 skip_dump_write:
-		// free(fname);
+		free(fname);
 		pair->pdf.pkts++;
 	}
 }
@@ -526,6 +527,6 @@ int main(int argc, char *argv[])
 	init_hash_table();
 	process_trace();
 	close_trace_files();
-	// free_hash_table();
+	free_hash_table();
 	exit(0);
 }
