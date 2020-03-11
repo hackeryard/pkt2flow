@@ -71,6 +71,7 @@ static void usage(char *progname)
 	fprintf(stderr, "	-u	also dump (U)DP flows\n");
 	fprintf(stderr, "	-v	also dump the in(v)alid TCP flows without the SYN option\n");
 	fprintf(stderr, "	-x	also dump non-UDP/non-TCP IP flows\n");
+	fprintf(stderr, "	-r	(r)aw packet that has no ethernet header\n");
 	fprintf(stderr, "	-o	(o)utput directory\n");
 }
 
@@ -78,7 +79,7 @@ static void usage(char *progname)
 static void parseargs(int argc, char *argv[])
 {
 	int opt;
-	const char *optstr = "uvxo:h";
+	const char *optstr = "uvxor:h";
 	while ((opt = getopt(argc, argv, optstr)) != -1) {
 		switch (opt) {
 		case 'h':
