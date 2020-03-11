@@ -446,6 +446,7 @@ static void process_trace(void)
 		if (pair->pdf.pkts == 0) {
 			// A new flow item reated with empty dump file object
 			fname = new_file_name(af_6tuple, hdr.ts.tv_sec);
+			printf("new_file_name: %s\n", fname);
 			pair->pdf.file_name = fname;
 			pair->pdf.start_time = hdr.ts.tv_sec;
 		} else {
