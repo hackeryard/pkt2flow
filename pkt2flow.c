@@ -51,6 +51,10 @@
 #include <unistd.h>
 #include "pkt2flow.h"
 
+typedef enum {
+	true=1, false=0
+}bool;
+
 static uint32_t dump_allowed;
 static char *readfile = NULL;
 //char *interface = NULL;
