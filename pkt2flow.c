@@ -270,6 +270,11 @@ static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 	af_6tuple->af_family = AF_INET;
 	af_6tuple->ip1.v4 = iphdr->ip_src;
 	af_6tuple->ip2.v4 = iphdr->ip_dst;
+	// debug
+	char src_ip_str[INET6_ADDRSTRLEN];
+	inet_ntop(AF_INET, &af_6tuple.ip1.v4, src_ip_str, INET_ADDRSTRLEN);
+	src_ip_str[INET6_ADDRSTRLEN-1] = '\0';
+	printf("ip: %s\n", src_ip_str);
 
 	// tcp or udp
 	return pcap_handle_layer4(af_6tuple, bytes, len, iphdr->ip_p);
@@ -391,7 +396,7 @@ static void process_trace(void)
 	struct af_6tuple af_6tuple;
 
 	while ((pkt = (u_char *)pcap_next(inputp, &hdr)) != NULL) {
-		// 仅仅是找到五元组
+		// 仅仅是找到五元组 af_6tuple
 		if(raw_flag) {
 			size_t len = hdr.caplen;
 			syn_detected = pcap_handle_ip(&af_6tuple, pkt, len);
@@ -400,6 +405,7 @@ static void process_trace(void)
 		}
 		if (syn_detected < 0)
 			continue;
+
 		if(syn_detected) {
 			printf("tcp syn detected\n");
 		}
