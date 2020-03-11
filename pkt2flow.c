@@ -54,7 +54,7 @@
 static uint32_t dump_allowed;
 static char *readfile = NULL;
 //char *interface = NULL;
-bool raw_flag = false;
+static bool raw_flag = false;
 static char *outputdir = "pkt2flow.out";
 static pcap_t *inputp = NULL;
 struct ip_pair *pairs[HASH_TBL_SIZE];
