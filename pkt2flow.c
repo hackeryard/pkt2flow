@@ -217,7 +217,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 #endif
 		return 0;
 	case IPPROTO_TCP:
-		printf("UDP deteceted\n");
+		printf("TCP deteceted\n");
 		if (len < sizeof(*tcphdr))
 			return -1;
 
