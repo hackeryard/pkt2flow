@@ -466,7 +466,7 @@ static void process_trace(void)
 				// the different name and timestamp
 				reset_pdf(&(pair->pdf));
 				fname = new_file_name(af_6tuple, hdr.ts.tv_sec);
-				pair->pdf.file_name = fname;
+				pair->pdf.file_name = fname; // put into pair struct
 				pair->pdf.start_time = hdr.ts.tv_sec;
 
 				switch (af_6tuple.protocol) {
@@ -488,7 +488,8 @@ static void process_trace(void)
 
 		// Dump the packet to file and close the file
 		fname = resemble_file_path(&(pair->pdf));
-		printf("++fname: %s\n", fname);
+		// 加上目录的最终文件名
+		printf("最终文件名: %s\n", fname);
 		FILE *f = fopen(fname, "ab");
 		if (!f) {
 			fprintf(stderr, "Failed to open output file '%s'\n", fname);
