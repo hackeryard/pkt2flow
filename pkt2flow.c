@@ -272,7 +272,7 @@ static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 	af_6tuple->ip2.v4 = iphdr->ip_dst;
 	// debug
 	char src_ip_str[INET_ADDRSTRLEN];
-	inet_ntop(AF_INET, &af_6tuple.ip1.v4, src_ip_str, INET_ADDRSTRLEN);
+	inet_ntop(AF_INET, iphdr->ip_src, src_ip_str, INET_ADDRSTRLEN);
 	src_ip_str[INET_ADDRSTRLEN-1] = '\0';
 	printf("ip: %s\n", src_ip_str);
 
