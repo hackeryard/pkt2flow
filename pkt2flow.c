@@ -118,7 +118,7 @@ static void parseargs(int argc, char *argv[])
 static void open_trace_file(void)
 {
 	char errbuf [PCAP_ERRBUF_SIZE];
-	printf("readfile: %s\n", readfile);
+	// printf("readfile: %s\n", readfile);
 	inputp = pcap_open_offline(readfile, errbuf);
 	if (!inputp) {
 		fprintf(stderr, "error opening tracefile %s: %s\n", readfile,
@@ -198,7 +198,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 
 	switch (proto) {
 	case IPPROTO_UDP:
-		printf("UDP deteceted\n");
+		// printf("UDP deteceted\n");
 		if (len < sizeof(*udphdr))
 			return -1;
 
@@ -213,7 +213,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 #endif
 		return 0;
 	case IPPROTO_TCP:
-		printf("TCP deteceted\n");
+		// printf("TCP deteceted\n");
 		if (len < sizeof(*tcphdr))
 			return -1;
 
@@ -236,7 +236,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 		else
 			return 0;
 	default:
-		printf("Layer 4 Unknown deteceted\n");
+		// printf("Layer 4 Unknown deteceted\n");
 		af_6tuple->protocol = 0;
 		af_6tuple->port1 = 0;
 		af_6tuple->port2 = 0;
@@ -247,7 +247,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 			    size_t len)
 {
-	printf("enter pcap_handle_ipv4\n");
+	// printf("enter pcap_handle_ipv4\n");
 	struct ip *iphdr;
 
 	if (len < sizeof(*iphdr))
@@ -271,7 +271,7 @@ static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 	// type, src, dest, len(16)
 	inet_ntop(AF_INET, &(iphdr->ip_src), src_ip_str, INET_ADDRSTRLEN);
 	src_ip_str[INET_ADDRSTRLEN-1] = '\0';
-	printf("ip: %s\n", src_ip_str);
+	// printf("ip: %s\n", src_ip_str);
 
 	// tcp or udp
 	return pcap_handle_layer4(af_6tuple, bytes, len, iphdr->ip_p);
@@ -404,9 +404,9 @@ static void process_trace(void)
 		if (syn_detected < 0)
 			continue;
 
-		if(syn_detected) {
-			printf("tcp syn detected\n");
-		}
+		// if(syn_detected) {
+		// 	printf("tcp syn detected\n");
+		// }
 
 		switch (af_6tuple.protocol) {
 		case IPPROTO_TCP:
@@ -425,7 +425,7 @@ static void process_trace(void)
 		}
 
 		// Search for the ip_pair of specific six-tuple
-		printf("查找五元组结构体是否在hash表中\n");
+		// printf("查找五元组结构体是否在hash表中\n");
 		pair = find_ip_pair(af_6tuple);
 		if (pair == NULL) {
 			if ((af_6tuple.protocol == IPPROTO_TCP) &&
@@ -434,7 +434,7 @@ static void process_trace(void)
 				// No SYN detected and don't create a new flow
 				continue;
 			}
-			printf("未找到，在hash表中insert\n");
+			// printf("未找到，在hash表中insert\n");
 			pair = register_ip_pair(af_6tuple);
 			switch (af_6tuple.protocol) {
 			case IPPROTO_TCP:
@@ -451,12 +451,12 @@ static void process_trace(void)
 				break;
 			}
 		}
-		printf("pair->pdf.pkts: %d\n", pair->pdf.pkts);
+		// printf("pair->pdf.pkts: %d\n", pair->pdf.pkts);
 		// Fill the ip_pair with information of the current flow
 		if (pair->pdf.pkts == 0) {
 			// A new flow item reated with empty dump file object
 			fname = new_file_name(af_6tuple, hdr.ts.tv_sec);
-			printf("new_file_name: %s\n", fname);
+			// printf("new_file_name: %s\n", fname);
 			pair->pdf.file_name = fname;
 			pair->pdf.start_time = hdr.ts.tv_sec;
 		} else {
@@ -488,7 +488,7 @@ static void process_trace(void)
 		// Dump the packet to file and close the file
 		fname = resemble_file_path(&(pair->pdf));
 		// 加上目录的最终文件名
-		printf("最终文件名: %s\n", fname);
+		// printf("最终文件名: %s\n", fname);
 		FILE *f = fopen(fname, "ab");
 		if (!f) {
 			fprintf(stderr, "Failed to open output file '%s'\n", fname);
