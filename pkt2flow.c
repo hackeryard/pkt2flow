@@ -272,6 +272,7 @@ static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 	af_6tuple->ip2.v4 = iphdr->ip_dst;
 	// debug
 	char src_ip_str[INET_ADDRSTRLEN];
+	// type, src, dest, len(16)
 	inet_ntop(AF_INET, &(iphdr->ip_src), src_ip_str, INET_ADDRSTRLEN);
 	src_ip_str[INET_ADDRSTRLEN-1] = '\0';
 	printf("ip: %s\n", src_ip_str);
@@ -400,6 +401,7 @@ static void process_trace(void)
 		if(raw_flag) {
 			size_t len = hdr.caplen;
 			syn_detected = pcap_handle_ip(&af_6tuple, pkt, len);
+			af_6tuple.is_vlan = 0;
 		} else {
 			syn_detected = pcap_handle_ethernet(&af_6tuple, &hdr, pkt);
 		}
@@ -427,7 +429,7 @@ static void process_trace(void)
 		}
 
 		// Search for the ip_pair of specific six-tuple
-		printf("find_ip_pair begin\n");
+		printf("查找五元组结构体是否在hash表中\n");
 		pair = find_ip_pair(af_6tuple);
 		if (pair == NULL) {
 			if ((af_6tuple.protocol == IPPROTO_TCP) &&
@@ -436,6 +438,7 @@ static void process_trace(void)
 				// No SYN detected and don't create a new flow
 				continue;
 			}
+			printf("未找到，在hash表中insert\n");
 			pair = register_ip_pair(af_6tuple);
 			switch (af_6tuple.protocol) {
 			case IPPROTO_TCP:

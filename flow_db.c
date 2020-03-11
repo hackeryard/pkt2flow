@@ -194,6 +194,7 @@ struct ip_pair *register_ip_pair(struct af_6tuple af_6tuple)
 	newp->pdf.file_name = NULL;
 	newp->next = pairs [hash];
 	pairs [hash] = newp;
+	// set pkt=0
 	reset_pdf((struct pkt_dump_file *) & (newp->pdf));
 
 	return newp;

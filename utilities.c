@@ -66,7 +66,7 @@ char *new_file_name(struct af_6tuple af_6tuple, unsigned long timestamp)
 	case 1:
 		ret = asprintf(&fname, "%s_%"PRIu16"_%s_%"PRIu16"_%lu_vlan.pcap",
 		       src_ip_str, af_6tuple.port1, dst_ip_str, af_6tuple.port2,
-		       timestamp);
+		       timestamp); // fname空间由asprintf动态分配 必须通过free释放
 		break;
 	}
 
