@@ -83,7 +83,7 @@ static void usage(char *progname)
 static void parseargs(int argc, char *argv[])
 {
 	int opt;
-	const char *optstr = "uvxor:h";
+	const char *optstr = "uvxro:h";
 	while ((opt = getopt(argc, argv, optstr)) != -1) {
 		switch (opt) {
 		case 'h':
