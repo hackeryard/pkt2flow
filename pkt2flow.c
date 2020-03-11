@@ -248,6 +248,7 @@ static int pcap_handle_layer4(struct af_6tuple *af_6tuple, const u_char *bytes,
 static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 			    size_t len)
 {
+	printf("enter pcap_handle_ipv4\n");
 	struct ip *iphdr;
 
 	if (len < sizeof(*iphdr))
@@ -267,6 +268,7 @@ static int pcap_handle_ipv4(struct af_6tuple *af_6tuple, const u_char *bytes,
 	af_6tuple->ip1.v4 = iphdr->ip_src;
 	af_6tuple->ip2.v4 = iphdr->ip_dst;
 
+	// tcp or udp
 	return pcap_handle_layer4(af_6tuple, bytes, len, iphdr->ip_p);
 }
 
